@@ -3,14 +3,14 @@ import Styles from "./App.module.css";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-import { getContacts } from "../redux/selectors";
+import { getStateContactsSlice } from "../redux/selectors";
 
 const ContactForm = () => {
   const nameId = nanoid();
   const phoneId = nanoid();
   const dispatch = useDispatch();
 
-  const contactsList = useSelector(getContacts);
+  const contactsList = useSelector(getStateContactsSlice);
 
   const submitHandler = (ev) => {
     ev.preventDefault();

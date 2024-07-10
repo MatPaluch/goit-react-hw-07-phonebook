@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { nanoid } from "nanoid";
-import { fetchContactsThunk } from "./operations";
+import { addContact, deleteContact, fetchContactsThunk } from "./operations";
 
 const contactsSlice = createSlice({
   name: "contacts",
@@ -12,18 +12,36 @@ const contactsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchContactsThunk.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(fetchContactsThunk.fulfilled, (state, action) => {
         state.isLoading = false;
         state.err = null;
         state.allContact = action.payload;
       })
-      .addCase(fetchContactsThunk.rejected, (state, action) => {
+      .addCase(addContact.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.err = action.payload;
-      });
+        state.allContact.push(action.payload);
+        state.err = null;
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.allContact.splice(action.payload, 1);
+        state.err = null;
+      })
+      // here are scaling pending and rejected action ↓
+      // .addMatcher((action)=>HAS to return similar action type,(state,action)=>{reducer operations with store,state 'PURE mutate functions'})
+      .addMatcher(
+        (action) => action.type.endsWith("/pending"),
+        (state) => {
+          state.isLoading = true;
+        },
+      )
+      .addMatcher(
+        (action) => action.type.endsWith("/rejected"),
+        (state, action) => {
+          state.isLoading = false;
+          state.err = action.payload;
+        },
+      );
   },
 });
 

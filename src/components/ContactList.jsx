@@ -4,7 +4,7 @@ import { getStateContactsSlice, getFilterWord } from "../redux/selectors";
 
 import { change } from "../redux/filterSlice";
 import { useEffect } from "react";
-import { fetchContactsThunk } from "../redux/operations";
+import { deleteContact, fetchContactsThunk } from "../redux/operations";
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ const ContactList = () => {
 
   const deleteFunc = (ev) => {
     const idContact = ev.target.value;
-    dispatch();
+    dispatch(deleteContact(idContact));
   };
 
   const filtredContacts = (ev) => {
@@ -37,17 +37,23 @@ const ContactList = () => {
         onChange={filtredContacts}
         autoComplete="true"
       />
-      <ul className={Styles.list}>
+      <ul className={Styles.list + " flex flex-col gap-2 mt-2"}>
         {isLoading && <p>Loading...</p>}
         {allContact &&
           allContact.map(
             (obj) =>
               obj.name.toLowerCase().includes(filterText.toLowerCase()) && (
-                <li key={obj.id} className={Styles.itemList}>
+                <li
+                  key={obj.id}
+                  className={Styles.itemList + " flex items-center"}>
                   <span>
                     {obj.name}: {obj.number}
                   </span>
-                  <button type="button" onClick={deleteFunc} value={obj.id}>
+                  <button
+                    type="button"
+                    onClick={deleteFunc}
+                    value={obj.id}
+                    className="bg-red-600 px-1.5 py-1 rounded-md text-white">
                     Delete
                   </button>
                 </li>

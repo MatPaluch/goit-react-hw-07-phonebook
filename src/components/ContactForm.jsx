@@ -4,23 +4,24 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 import { getStateContactsSlice } from "../redux/selectors";
+import { addContact } from "../redux/operations";
 
 const ContactForm = () => {
   const nameId = nanoid();
   const phoneId = nanoid();
   const dispatch = useDispatch();
 
-  const contactsList = useSelector(getStateContactsSlice);
+  const { allContact } = useSelector(getStateContactsSlice);
 
   const submitHandler = (ev) => {
     ev.preventDefault();
     const form = ev.target;
     const nameValue = form.elements.name.value;
     const numberValue = form.elements.number.value;
-    if (contactsList.find((obj) => obj.name === nameValue)) {
+    if (allContact.find((obj) => obj.name === nameValue)) {
       alert(nameValue + " is already in contacts");
     } else {
-      dispatch();
+      dispatch(addContact({ name: nameValue, number: numberValue }));
       form.reset();
     }
   };
@@ -53,7 +54,11 @@ const ContactForm = () => {
           autoComplete="true"
         />
         <br />
-        <button type="submit">Add Contact</button>
+        <button
+          type="submit"
+          className="bg-green-600 px-1.5 py-1 rounded-md text-white mt-3">
+          Add Contact
+        </button>
       </form>
     </div>
   );

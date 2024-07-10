@@ -21,7 +21,7 @@ const ContactForm = () => {
     if (allContact.find((obj) => obj.name === nameValue)) {
       alert(nameValue + " is already in contacts");
     } else {
-      dispatch(addContact({ name: nameValue, number: numberValue }));
+      dispatch(addContact({ name: nameValue, phone: numberValue }));
       form.reset();
     }
   };

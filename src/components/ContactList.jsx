@@ -47,7 +47,7 @@ const ContactList = () => {
                   key={obj.id}
                   className={Styles.itemList + " flex items-center"}>
                   <span>
-                    {obj.name}: {obj.number}
+                    {obj.name}: {obj.phone}
                   </span>
                   <button
                     type="button"

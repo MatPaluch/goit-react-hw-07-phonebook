@@ -1,4 +1,6 @@
-# React + Vite
+# Asynchronus React-Redux, using mockapi.io for database and some Tailwindcss to try.
+
+## This project using React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
